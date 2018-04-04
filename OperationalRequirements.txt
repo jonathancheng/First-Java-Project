@@ -1,0 +1,17 @@
+OPERATIONAL REQUIREMENTS
+TicTacToe Program
+
+Program needs to include:
+- Loops
+- RNGs
+- if/else
+- Constants
+- Point scoring and maintenance
+- "Good style"
+- Single player and Multi-player
+- Rules page available upon request
+- About page available upon request
+
+Game rules:
+- Ordinary rules apply: "X and O take turns marking the spaces in a 3×3 grid. The player who succeeds in placing three of their marks in a horizontal, vertical, or diagonal row wins the game."
+- Board size is flexible from 3 to 10 (side cell length)
