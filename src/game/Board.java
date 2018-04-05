@@ -8,7 +8,7 @@ public class Board implements Grid
 {
    private Cell[][] cells;
 
-   public Board(Cell[][] cells)
+   private Board(Cell[][] cells)
    {
       this.cells = cells;
    }
@@ -41,7 +41,7 @@ public class Board implements Grid
    private void fillWithEmptyCells()
    {
       getAllCoordinates()
-              .forEach(coordinate -> setCellAt(coordinate, new Cell()));
+              .forEach(coordinate -> setCellAt(coordinate, Cell.EMPTY));
    }
 
    private Stream<Coordinate> getAllCoordinates()
