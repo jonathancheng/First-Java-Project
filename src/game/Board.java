@@ -27,6 +27,7 @@ public class Board implements Grid
       return cells[location.y][location.x];
    }
 
+   @Override
    public int getSize()
    {
       return cells.length;
