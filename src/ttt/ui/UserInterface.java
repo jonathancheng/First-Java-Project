@@ -1,8 +1,9 @@
 package ttt.ui;
 
-import game.Coordinate;
-import game.GameOutcome;
-import game.Grid;
+import ttt.MainMenu;
+import ttt.game.Coordinate;
+import ttt.game.GameOutcome;
+import ttt.game.Grid;
 
 public interface UserInterface {
    // Ideally, the methods should be called in the order below.

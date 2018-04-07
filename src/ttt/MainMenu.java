@@ -1,6 +1,8 @@
+package ttt;
 
-
-import game.Game;
+import ttt.game.Game;
+import ttt.player.HumanPlayer;
+import ttt.player.Player;
 import ttt.ui.ConsoleUI;
 import ttt.ui.UserInterface;
 
@@ -9,6 +11,8 @@ import java.util.Scanner;
 
 public class MainMenu
 {
+
+
    private static final UserInterface ui =
            new ConsoleUI();
 
@@ -33,32 +37,23 @@ public class MainMenu
               Scanner reader = new Scanner(System.in);
 
               System.out.println();
-              int boardSize;
+              int boardSize = promptUserForInt("Enter board size (3 - 10) >> ", 3, 10);
 
-              while(true)
-              {
-                 try
-                 {
-                    System.out.print("Enter board size (3 - 10) >> ");
-
-                    boardSize = reader.nextInt();
-                    reader.nextLine();
-
-                    if (boardSize < 3 || boardSize > 10)
-                    {
-                       System.err.println("Out of range.");
-                    }
-                 }
-                 catch (InputMismatchException exception)
-                 {
-                    System.err.println("Naughty user, I want an int.");
-                 }
-              }
-              System.out.println("Will Player A be a human or a machine (1 for human, 2 for machine)? >>");
-              int playerAType = reader.nextInt();
+              int playerAType = promptUserForInt("Will Player A be a human or a machine (1 for human, 2 for machine? >>",
+                      1, 2);
               if (playerAType == 1)
               {
+                 String playerAName = getPlayerName("Player A");
+                 new HumanPlayer(playerAName, ui);
+              }
 
+              int playerBType = promptUserForInt("Will Player B be a human or a machine? >>",
+                      1, 2);
+
+              if (playerBType == 1)
+              {
+                 String playerBName = getPlayerName("Player B");
+                 new HumanPlayer(playerBName, ui);
               }
               new Game(boardSize, );
            }),
@@ -118,5 +113,38 @@ public class MainMenu
       {
          System.out.printf("%d. %s\n", index + 1, OPTIONS[index].label);
       }
+   }
+
+   private static int promptUserForInt(String prompt, int minValue, int maxValue) {
+      Scanner reader = new Scanner(System.in);
+      while(true)
+      {
+         try
+         {
+            System.out.print(prompt);
+
+            int userResponse = reader.nextInt();
+            reader.nextLine();
+
+            if (userResponse < minValue || userResponse > maxValue)
+            {
+               System.err.println("Out of range.");
+            }
+            else
+               return userResponse;
+         }
+         catch (InputMismatchException exception)
+         {
+            System.err.println("Naughty user, I want an int.");
+         }
+      }
+   }
+
+   private static String getPlayerName(String player)
+   {
+      Scanner reader = new Scanner(System.in);
+
+      System.out.println(player + ", please enter your name >>");
+      String playerName = reader.nextLine();
    }
 }

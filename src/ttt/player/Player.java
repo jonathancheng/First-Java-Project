@@ -1,7 +1,7 @@
 package ttt.player;
 
-import game.Coordinate;
-import game.Grid;
+import ttt.game.Coordinate;
+import ttt.game.Grid;
 
 public interface Player {
    Coordinate getChoice(Grid gameGrid);
