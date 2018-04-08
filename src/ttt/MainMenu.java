@@ -2,13 +2,8 @@ package ttt;
 
 import ttt.game.Game;
 import ttt.game.GameOutcome;
-import ttt.player.HumanPlayer;
-import ttt.player.Player;
 import ttt.ui.ConsoleUI;
 import ttt.ui.UserInterface;
-
-import java.util.InputMismatchException;
-import java.util.Scanner;
 
 public class MainMenu
 {

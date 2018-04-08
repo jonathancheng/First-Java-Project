@@ -13,16 +13,12 @@ public interface UserInterface {
    MainMenu.MenuOption getMenuChoice(MainMenu.MenuOption[] options);
 
    void showRules();
-
    void showAbout();
 
    int getBoardSize();
-
    Player getPlayerA();
-
    Player getPlayerB();
 
    Coordinate getMoveFromUser(Grid grid, String userName);
-
    void showOutcome(GameOutcome outcome, Player winner);
 }
