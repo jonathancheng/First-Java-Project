@@ -1,6 +1,9 @@
 package game;
 
 import org.junit.Test;
+import ttt.game.Board;
+import ttt.game.Cell;
+import ttt.game.Coordinate;
 
 import static org.junit.Assert.assertEquals;
 

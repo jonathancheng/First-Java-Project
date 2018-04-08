@@ -19,7 +19,7 @@ public class Referee
       this.grid = grid;
    }
 
-   Optional<GameOutcome> getVerdict()
+   public Optional<GameOutcome> getVerdict()
    {
       return Stream.of(
               // All rows

@@ -20,4 +20,10 @@ public class Coordinate
       return x == otherCoord.x &&
               y == otherCoord.y;
    }
+
+   @Override
+   public String toString()
+   {
+      return String.format("(%d, %d)", x, y);
+   }
 }

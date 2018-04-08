@@ -2,44 +2,17 @@ package game;
 
 import org.hamcrest.Matcher;
 import org.junit.Test;
+import testutil.MockGrid;
+import ttt.game.*;
 
 import java.util.Optional;
 
-import static game.GameOutcome.*;
+import static ttt.game.GameOutcome.*;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
 public class RefereeTest
 {
-   private class MockGrid implements Grid
-   {
-      private String[] rows;
-
-      public MockGrid(String... rows)
-      {
-         this.rows = rows;
-      }
-
-      @Override
-      public int getSize()
-      {
-         return rows.length;
-      }
-
-      @Override
-      public Cell getCellAt(Coordinate location)
-      {
-         switch (rows[location.y].charAt(location.x))
-         {
-            case 'A':
-               return Cell.A;
-            case 'B':
-               return Cell.B;
-            default:
-               return Cell.EMPTY;
-         }
-      }
-   }
 
    private final Grid emptyGrid = new MockGrid(
            "   ",

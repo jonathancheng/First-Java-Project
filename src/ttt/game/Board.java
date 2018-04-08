@@ -33,6 +33,27 @@ public class Board implements Grid
       return cells.length;
    }
 
+   void markPlayerMove(Coordinate location, Cell cell) throws IllegalAccessException
+   {
+      checkCoordinate(location);
+      if (isNonEmpty(location))
+         throw new IllegalAccessException("Cell already occupied, cannot override");
+
+      setCellAt(location, cell);
+   }
+
+   boolean isFull()
+   {
+      return getAllCoordinates()
+              .map(this::getCellAt)
+              .allMatch(cell -> cell != Cell.EMPTY);
+   }
+
+   private boolean isNonEmpty(Coordinate location)
+   {
+      return getCellAt(location) != Cell.EMPTY;
+   }
+
    private void setCellAt(Coordinate location, Cell cell)
    {
       checkCoordinate(location);

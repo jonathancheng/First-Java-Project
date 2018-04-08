@@ -18,8 +18,7 @@ public class HumanPlayer implements Player
    @Override
    public Coordinate getChoice(Grid gameGrid)
    {
-      ui.showGrid(gameGrid);
-      return ui.getMoveFromUser();
+      return ui.getMoveFromUser(gameGrid, getName());
    }
 
    @Override
