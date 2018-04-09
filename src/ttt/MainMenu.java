@@ -2,6 +2,7 @@ package ttt;
 
 import ttt.game.Game;
 import ttt.game.GameOutcome;
+import ttt.game.Scoreboard;
 import ttt.ui.ConsoleUI;
 import ttt.ui.UserInterface;
 
@@ -14,9 +15,19 @@ public class MainMenu
    {
       PLAY_GAME("Play game", () ->
       {
+         Scoreboard scores = new Scoreboard();
          final Game game = new Game(ui.getBoardSize(), ui.getPlayerA(), ui.getPlayerB());
-         GameOutcome result = game.play();
-         ui.showOutcome(result, game.getWinner(result));
+         do
+         {
+            GameOutcome result = game.play();
+            ui.showOutcome(result, game.getWinner(result));
+
+            scores.markOutcome(result);
+            ui.showScoreboard(scores);
+
+            game.reset();
+
+         } while (ui.askPlayAgain());
       }),
       VIEW_RULES("View rules", ui::showRules),
       ABOUT_GAME("About game", ui::showAbout);
@@ -35,8 +46,7 @@ public class MainMenu
    {
       System.out.println("Welcome to Tic Tac Toe!");
       while (true)
-      {
          ui.getMenuChoice(MenuOption.values()).runner.run();
-      }
    }
+
 }

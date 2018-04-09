@@ -1,10 +1,7 @@
 package ttt.ui;
 
 import ttt.MainMenu;
-import ttt.game.Cell;
-import ttt.game.Coordinate;
-import ttt.game.GameOutcome;
-import ttt.game.Grid;
+import ttt.game.*;
 import ttt.player.HumanPlayer;
 import ttt.player.Player;
 import ttt.player.ai.ABPruningAI;
@@ -32,13 +29,19 @@ public class ConsoleUI implements UserInterface {
    @Override
    public void showRules()
    {
-      System.out.println("Rules stub");
+      System.out.println("Upon choosing the \"Play Game\" option, you will be asked to choose a board size, anywhere from \n" +
+              "3 - 10. The board will always be in a square shape, ie. if you choose, 3, then it will be a 3x3 board. \n" +
+              "The players will take turn putting a piece down on this board, and the first person to get x amount of pieces \n " +
+              "in a row wins. x depends on the board size. If the board size is 3, then the user needs to get 3 pieces in a row, \n" +
+              "and 4 in a row for a 4x4 board. The pieces could be vertical, horizontal, or diagonal. Upon winning the game, you \n" +
+              "will be scored one point. If the game results in a tie, then neither side earns a point. If you would like to exit \n" +
+              "the game at any time, then enter -1 when asked for the x or y coordinate.");
    }
 
    @Override
    public void showAbout()
    {
-      System.out.println("About stub");
+      System.out.println("This game was created in 2018 by the programmers Michael Peng and Jonathan Cheng. \nMade with GitHub, IntelliJ, Floobits and <3");
    }
 
    @Override
@@ -76,8 +79,8 @@ public class ConsoleUI implements UserInterface {
       {
          ConsoleBoxRenderer.draw(grid);
 
-         x = promptForIntInSize(userName + ", the x component of your selected cell >>", grid);
-         y = promptForIntInSize("And the y component >>", grid);
+         x = promptForIntInSizeWithSentinel(userName + ", the x component of your selected cell >>", grid);
+         y = promptForIntInSizeWithSentinel("And the y component >>", grid);
 
          if (grid.getCellAt(new Coordinate(x, y)) != Cell.EMPTY)
             System.out.println("That cell is occupied.");
@@ -102,6 +105,23 @@ public class ConsoleUI implements UserInterface {
       }
    }
 
+   @Override
+   public void showScoreboard(Scoreboard scoreboard)
+   {
+      System.out.printf("=== SCORES ===\nPlayer A: %d points\nPlayer B: %d points\n",
+              scoreboard.getScorePlayerA(),
+              scoreboard.getScorePlayerB());
+   }
+
+   @Override
+   public boolean askPlayAgain()
+   {
+      // TODO stub
+      int playAgain = promptForRangedInt("Would you like to play again? (1 for yes, 0 for no) >>", 0, 1);
+
+      return playAgain == 1;
+   }
+
    private Player promptForPlayer(String playerSymbol)
    {
       int choice = promptForRangedInt(
@@ -117,10 +137,16 @@ public class ConsoleUI implements UserInterface {
          return new RandomAI();
    }
 
-   private static int promptForIntInSize(String prompt, Grid grid)
+   private static int promptForIntInSizeWithSentinel(String prompt, Grid grid)
    {
-      return promptForRangedInt(prompt, 0, grid.getSize() - 1);
+      int input = promptForRangedInt(prompt, -1, grid.getSize() - 1);
+
+      if (input == -1)
+         System.exit(0);
+
+      return input;
    }
+
    private static int promptForRangedInt(String prompt, int minInclusive, int maxInclusive)
    {
       while (true)
