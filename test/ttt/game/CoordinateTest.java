@@ -1,9 +1,8 @@
-package game;
+package ttt.game;
 
 import org.junit.Test;
-import ttt.game.Coordinate;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class CoordinateTest
 {

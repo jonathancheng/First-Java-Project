@@ -1,5 +1,6 @@
 package ttt.player;
 
+import ttt.game.Cell;
 import ttt.game.Coordinate;
 import ttt.game.Grid;
 import ttt.ui.UserInterface;
@@ -16,7 +17,7 @@ public class HumanPlayer implements Player
    }
 
    @Override
-   public Coordinate getChoice(Grid gameGrid)
+   public Coordinate getChoice(Grid gameGrid, Cell b)
    {
       return ui.getMoveFromUser(gameGrid, getName());
    }

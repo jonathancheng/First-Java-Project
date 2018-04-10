@@ -28,7 +28,7 @@ public class Game
       Optional<GameOutcome> outcome;
 
       for (outcome = Optional.empty();
-           !outcome.isPresent() && !board.isFull();
+           !outcome.isPresent();
            outcome = referee.getVerdict())
          markNextMove();
 
@@ -55,6 +55,11 @@ public class Game
       referee = new Referee(board);
    }
 
+   public Grid getGrid()
+   {
+      return board;
+   }
+
    private void markNextMove()
    {
       while (true)
@@ -62,9 +67,9 @@ public class Game
          try
          {
             if (isTurnOfA)
-               board.markPlayerMove(playerA.getChoice(board), Cell.A);
+               board.markPlayerMove(playerA.getChoice(board, Cell.A), Cell.A);
             else
-               board.markPlayerMove(playerB.getChoice(board), Cell.B);
+               board.markPlayerMove(playerB.getChoice(board, Cell.B), Cell.B);
             break;
          } catch (IllegalAccessException iae)
          {
@@ -73,4 +78,5 @@ public class Game
       }
       isTurnOfA = !isTurnOfA;
    }
+
 }

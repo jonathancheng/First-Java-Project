@@ -1,15 +1,15 @@
-package game;
+package ttt.game;
 
 import org.hamcrest.Matcher;
 import org.junit.Test;
 import testutil.MockGrid;
-import ttt.game.*;
 
 import java.util.Optional;
 
-import static ttt.game.GameOutcome.*;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
+import static ttt.game.GameOutcome.WIN_A;
+import static ttt.game.GameOutcome.WIN_B;
 
 public class RefereeTest
 {

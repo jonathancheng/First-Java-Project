@@ -1,10 +1,12 @@
 package ttt.player.ai;
 
 import org.junit.Test;
+import testutil.MockGrid;
 import ttt.game.Cell;
 import ttt.game.Coordinate;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class CompactByteGridTest
 {
@@ -18,6 +20,35 @@ public class CompactByteGridTest
 
       grid = new CompactByteGrid(6);
       assertEquals(6, grid.getSize());
+   }
+
+   @Test
+   public void fromExistingGrid()
+   {
+      MockGrid originalGrid = new MockGrid(
+              "A B ",
+              "  BA",
+              "A   ",
+              "B  A"
+      );
+      CompactByteGrid copy = CompactByteGrid.from(originalGrid);
+
+      assertTrue(copy.equals(originalGrid));
+   }
+
+   @Test
+   public void comparison()
+   {
+      MockGrid template = new MockGrid(
+              "A A",
+              " B ",
+              "  B"
+      );
+      CompactByteGrid one = CompactByteGrid.from(template),
+              two = CompactByteGrid.from(one);
+
+      assertTrue(one.equals(two));
+      assertTrue(two.equals(one));
    }
 
    @Test

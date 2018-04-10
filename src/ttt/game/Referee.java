@@ -32,7 +32,9 @@ public class Referee
               .map(this::getWinningCell)
               .filter(Optional::isPresent).map(Optional::get)
               .findFirst()
-              .map(this::getOutcomeFromWinningCell);
+              .map(this::getOutcomeFromWinningCell)
+              .or(() -> grid.isFull() ?
+                      Optional.of(GameOutcome.TIE) : Optional.empty());
    }
 
    private Optional<Cell> getWinningCell(Stream<Stream<Coordinate>> streams)

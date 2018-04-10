@@ -45,7 +45,7 @@ public class ConsoleBoxRenderer
    {
       drawRowWithSeparator(size,
               CHAR_LEFT_TOP,
-              i -> CHAR_HORIZONTAL,
+              i -> String.valueOf(CHAR_HORIZONTAL),
               CHAR_TOP_JUNCTION,
               CHAR_RIGHT_TOP);
    }
@@ -63,7 +63,7 @@ public class ConsoleBoxRenderer
    {
       drawRowWithSeparator(size,
               CHAR_LEFT_JUNCTION,
-              i -> CHAR_HORIZONTAL,
+              i -> String.valueOf(CHAR_HORIZONTAL),
               CHAR_JUNCTION,
               CHAR_RIGHT_JUNCTION);
    }
@@ -72,7 +72,7 @@ public class ConsoleBoxRenderer
    {
       drawRowWithSeparator(size,
               CHAR_LEFT_BOTTOM,
-              i -> CHAR_HORIZONTAL,
+              i -> String.valueOf(CHAR_HORIZONTAL),
               CHAR_BOTTOM_JUNCTION,
               CHAR_RIGHT_BOTTOM);
    }
@@ -80,7 +80,7 @@ public class ConsoleBoxRenderer
    private static void drawRowWithSeparator(
            int size,
            char begin,
-           IntFunction<Character> dataFunc,
+           IntFunction<String> dataFunc,
            char separator,
            char end)
    {
@@ -97,16 +97,26 @@ public class ConsoleBoxRenderer
       System.out.println(end);
    }
 
-   private static char getCellExpression(Cell cell)
+   private static String getCellExpression(Cell cell)
    {
       switch (cell)
       {
          case A:
-            return 'O';
+            return inColor(31, "O");
          case B:
-            return 'X';
+            return inColor(34, "X");
          default:
-            return ' ';
+            return " ";
       }
+   }
+
+   private static String inColor(int magicNumber, String content)
+   {
+      return escape(magicNumber) + content + escape(0);
+   }
+
+   private static String escape(int magicNumber)
+   {
+      return "\u001B[" + magicNumber + "m";
    }
 }

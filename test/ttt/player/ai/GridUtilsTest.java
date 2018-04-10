@@ -2,18 +2,18 @@ package ttt.player.ai;
 
 import org.junit.Test;
 import testutil.MockGrid;
+import ttt.game.Cell;
 import ttt.game.Coordinate;
 import ttt.game.Grid;
 
-import java.util.Arrays;
 import java.util.Set;
 import java.util.function.Function;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class GridUtilsTest
 {
@@ -24,7 +24,12 @@ public class GridUtilsTest
            "B  AB ",
            "AAA BB",
            "B B BA",
-           "   AA ");
+           "   AA "),
+   grid2 = new MockGrid(
+           "A A",
+           "BB ",
+           "   "
+   );
 
    @Test
    public void coordinatesOfEmptyCells()
@@ -49,6 +54,29 @@ public class GridUtilsTest
    @Test
    public void allCoordinatesOf()
    {
+      assertStreamEquals(grid2, GridUtils::allCoordinatesOf, toCoordinateList(
+              0, 0,
+              0, 1,
+              0, 2,
+              1, 0,
+              1, 1,
+              1, 2,
+              2, 0,
+              2, 1,
+              2, 2
+      ));
+   }
+
+   @Test
+   public void gridAfterMove()
+   {
+      Grid result = GridUtils.gridAfterMove(grid2, new Coordinate(1, 2), Cell.B);
+
+      assertTrue(new MockGrid(
+              "A A",
+              "BB ",
+              " B "
+      ).equals(result));
    }
 
    private void assertStreamEquals

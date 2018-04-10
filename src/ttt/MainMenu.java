@@ -21,6 +21,7 @@ public class MainMenu
          {
             GameOutcome result = game.play();
             ui.showOutcome(result, game.getWinner(result));
+            ui.showGrid(game.getGrid());
 
             scores.markOutcome(result);
             ui.showScoreboard(scores);

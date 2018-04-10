@@ -4,6 +4,11 @@ import ttt.game.Cell;
 import ttt.game.Coordinate;
 import ttt.game.Grid;
 
+import java.util.Arrays;
+
+/**
+ * A Grid implementation based on byte arrays, focused on small memory footprint and quick comparison speed.
+ */
 public class CompactByteGrid implements Grid
 {
    private byte[] array;
@@ -14,7 +19,17 @@ public class CompactByteGrid implements Grid
       clear();
    }
 
-   public void clear()
+   static CompactByteGrid from(Grid grid)
+   {
+      CompactByteGrid out = new CompactByteGrid(grid.getSize());
+
+      GridUtils.allCoordinatesOf(grid).forEach(loc ->
+              out.setCellAt(loc, grid.getCellAt(loc)));
+
+      return out;
+   }
+
+   void clear()
    {
       for (int i = 0; i < array.length; ++i)
          array[i] = toByte(Cell.EMPTY);
@@ -33,10 +48,15 @@ public class CompactByteGrid implements Grid
       return cellFromByte(array[toArrayIndex(location)]);
    }
 
-   public void setCellAt(Coordinate coordinate, Cell targetValue)
+   void setCellAt(Coordinate coordinate, Cell targetValue)
    {
       checkCoordinate(coordinate);
       array[toArrayIndex(coordinate)] = toByte(targetValue);
+   }
+
+   public boolean equals(CompactByteGrid other)
+   {
+      return Arrays.equals(this.array, other.array);
    }
 
    private byte toByte(Cell cell)

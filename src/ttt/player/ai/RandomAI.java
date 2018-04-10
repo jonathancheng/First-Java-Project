@@ -1,5 +1,6 @@
 package ttt.player.ai;
 
+import ttt.game.Cell;
 import ttt.game.Coordinate;
 import ttt.game.Grid;
 import ttt.player.Player;
@@ -14,7 +15,7 @@ public class RandomAI implements Player
    private static final Random RNG = new Random();
 
    @Override
-   public Coordinate getChoice(Grid gameGrid)
+   public Coordinate getChoice(Grid gameGrid, Cell b)
    {
       return getRandomPick(GridUtils.coordinatesOfEmptyCells(gameGrid));
    }

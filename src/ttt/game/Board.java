@@ -42,13 +42,6 @@ public class Board implements Grid
       setCellAt(location, cell);
    }
 
-   boolean isFull()
-   {
-      return getAllCoordinates()
-              .map(this::getCellAt)
-              .allMatch(cell -> cell != Cell.EMPTY);
-   }
-
    private boolean isNonEmpty(Coordinate location)
    {
       return getCellAt(location) != Cell.EMPTY;

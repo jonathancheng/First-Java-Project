@@ -125,6 +125,12 @@ public class ConsoleUI implements UserInterface {
    }
 
    @Override
+   public void showGrid(Grid grid)
+   {
+      ConsoleBoxRenderer.draw(grid);
+   }
+
+   @Override
    public boolean askPlayAgain()
    {
       // TODO stub

@@ -24,6 +24,8 @@ public interface UserInterface {
    void showOutcome(GameOutcome outcome, Player winner);
    void showScoreboard(Scoreboard scoreboard);
    void announceOverallWinner(Scoreboard scoreboard);
+   void showGrid(Grid grid);
 
    boolean askPlayAgain();
+
 }

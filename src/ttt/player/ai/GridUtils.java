@@ -22,6 +22,20 @@ class GridUtils
               .flatMap(i -> i);
    }
 
+   static CompactByteGrid gridAfterMove(Grid grid, Coordinate location, Cell mover)
+   {
+      CompactByteGrid newGrid = CompactByteGrid.from(grid);
+      newGrid.setCellAt(location, mover);
+
+      return newGrid;
+   }
+
+   static Stream<CompactByteGrid> afterEachMove(Grid grid, Cell move)
+   {
+      return coordinatesOfEmptyCells(grid)
+              .map(coordinate -> gridAfterMove(grid, coordinate, move));
+   }
+
    private static IntStream sizeRange(Grid grid)
    {
       return IntStream.range(0, grid.getSize());

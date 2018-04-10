@@ -1,5 +1,7 @@
 package ttt.game;
 
+import java.util.Objects;
+
 public class Coordinate
 {
    public final int x;
@@ -12,13 +14,19 @@ public class Coordinate
    }
 
    @Override
-   public boolean equals(Object other)
+   public boolean equals(Object o)
    {
-      if (!(other instanceof Coordinate)) return false;
-      Coordinate otherCoord = (Coordinate) other;
+      if (this == o) return true;
+      if (o == null || getClass() != o.getClass()) return false;
+      Coordinate that = (Coordinate) o;
+      return x == that.x &&
+              y == that.y;
+   }
 
-      return x == otherCoord.x &&
-              y == otherCoord.y;
+   @Override
+   public int hashCode()
+   {
+      return Objects.hash(x, y);
    }
 
    @Override
