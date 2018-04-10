@@ -1,10 +1,7 @@
 package ttt.ui;
 
 import ttt.MainMenu;
-import ttt.game.Cell;
-import ttt.game.Coordinate;
-import ttt.game.GameOutcome;
-import ttt.game.Grid;
+import ttt.game.*;
 import ttt.player.HumanPlayer;
 import ttt.player.Player;
 import ttt.player.ai.ABPruningAI;
@@ -32,19 +29,33 @@ public class ConsoleUI implements UserInterface {
    @Override
    public void showRules()
    {
-      System.out.println("Rules stub");
+      System.out.println();
+      System.out.println("=== Rules ===");
+      System.out.println("Upon choosing the \"Play Game\" option, you will be asked to choose a board size, anywhere from 3 - 10. \n" +
+              "The board will always be in a square shape, ie. if you choose, 3, then it will be a 3x3 board. The players\n" +
+              "will take turns putting a piece down on this board, and the first person to get x amount of pieces in a row wins.\n" +
+              "x depends on the board size. If the board size is 3, then the user needs to get 3 pieces in a row, and 4 in a row\n" +
+              "for a 4x4 board, etc. The pieces could line up vertically, horizontally, or diagonally. Upon winning the game, you\n" +
+              "will be scored one point. If the game results in a tie, then neither side earns a point. If you would like to exit \n" +
+              "the game at any time, then enter -1 when asked for the x or y coordinate. Be careful when choosing your coordinate. \n" +
+              "The coordinates start at 0 instead of 1 from the top left corner.");
+      pressEnterToContinue();
    }
 
    @Override
    public void showAbout()
    {
-      System.out.println("About stub");
+      System.out.println();
+      System.out.println("=== About ===");
+      System.out.println("This game was created in 2018 by the programmers Michael Peng and Jonathan Cheng. " +
+              "\nMade with GitHub, IntelliJ, Floobits and <3");
+      pressEnterToContinue();
    }
 
    @Override
    public int getBoardSize()
    {
-      return promptForRangedInt("Enter board size (3 - 10) >> ", 3, 10);
+      return promptForRangedInt("\nEnter board size (3 - 10) >> ", 3, 10);
    }
 
    @Override
@@ -61,6 +72,7 @@ public class ConsoleUI implements UserInterface {
 
    private void printMenuOptions(MainMenu.MenuOption[] options)
    {
+      System.out.println("=== Main Menu ===");
       System.out.println("0. Exit the game");
       for (int index = 0; index < options.length; ++index)
       {
@@ -76,8 +88,8 @@ public class ConsoleUI implements UserInterface {
       {
          ConsoleBoxRenderer.draw(grid);
 
-         x = promptForIntInSize(userName + ", the x component of your selected cell >>", grid);
-         y = promptForIntInSize("And the y component >>", grid);
+         x = promptForIntInSizeWithSentinel(userName + ", the x component of your selected cell >>", grid);
+         y = promptForIntInSizeWithSentinel("And the y component >>", grid);
 
          if (grid.getCellAt(new Coordinate(x, y)) != Cell.EMPTY)
             System.out.println("That cell is occupied.");
@@ -92,20 +104,57 @@ public class ConsoleUI implements UserInterface {
       switch (outcome)
       {
          case WIN_A:
-            System.out.println("Player A has won! Congrats, " + winner.getName());
+            System.out.println("Player A has won a point! Congrats, " + winner.getName());
             break;
          case WIN_B:
-            System.out.println("Player B has won! Nice job, " + winner.getName());
+            System.out.println("Player B has won a point! Nice job, " + winner.getName());
             break;
          case TIE:
-            System.out.println("It's a tie!");
+            System.out.println("It's a tie! No one gets any points.");
       }
+   }
+
+   @Override
+   public void showScoreboard(Scoreboard scoreboard)
+   {
+      System.out.println();
+      System.out.printf("==== SCORES ====\nPlayer A: %d points\nPlayer B: %d points\n",
+              scoreboard.getScorePlayerA(),
+              scoreboard.getScorePlayerB());
+      System.out.println();
+   }
+
+   @Override
+   public boolean askPlayAgain()
+   {
+      // TODO stub
+      int playAgain = promptForRangedInt("Would you like to play again? (1 for yes, 0 for no) >>", 0, 1);
+
+      return playAgain == 1;
+   }
+
+   @Override
+   public void announceOverallWinner(Scoreboard scoreboard) {
+      System.out.println();
+      if (scoreboard.getScorePlayerA() == scoreboard.getScorePlayerB())
+      {
+         System.out.println("Both players have the same score, so the game is a tie.");
+      }
+      else if (scoreboard.getScorePlayerA() > scoreboard.getScorePlayerB())
+      {
+         System.out.println("Player A has more score than Player B, so they have won the game. Congratulations!");
+      }
+      else
+      {
+         System.out.println("Player B has more score than Player A, so they have won the game. Congratulations!");
+      }
+      pressEnterToContinue();
    }
 
    private Player promptForPlayer(String playerSymbol)
    {
       int choice = promptForRangedInt(
-              "What is " + playerSymbol + "? (1 for user, 2 for hard AI, 3 for random) >>", 1, 3);
+              "What is " + playerSymbol + "? (1 for user, 2 for hard AI, 3 for easy AI) >>", 1, 3);
 
       if (choice == 1)
       {
@@ -117,10 +166,16 @@ public class ConsoleUI implements UserInterface {
          return new RandomAI();
    }
 
-   private static int promptForIntInSize(String prompt, Grid grid)
+   private static int promptForIntInSizeWithSentinel(String prompt, Grid grid)
    {
-      return promptForRangedInt(prompt, 0, grid.getSize() - 1);
+      int input = promptForRangedInt(prompt, -1, grid.getSize() - 1);
+
+      if (input == -1)
+         System.exit(0);
+
+      return input;
    }
+
    private static int promptForRangedInt(String prompt, int minInclusive, int maxInclusive)
    {
       while (true)
@@ -152,5 +207,10 @@ public class ConsoleUI implements UserInterface {
             reader.nextLine();
          }
       }
+   }
+   private static void pressEnterToContinue() {
+      System.out.println();
+      System.out.println("PRESS ENTER TO CONTINUE...");
+      reader.nextLine();
    }
 }

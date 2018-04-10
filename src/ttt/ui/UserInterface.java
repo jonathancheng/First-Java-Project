@@ -4,6 +4,7 @@ import ttt.MainMenu;
 import ttt.game.Coordinate;
 import ttt.game.GameOutcome;
 import ttt.game.Grid;
+import ttt.game.Scoreboard;
 import ttt.player.Player;
 
 public interface UserInterface {
@@ -21,4 +22,8 @@ public interface UserInterface {
 
    Coordinate getMoveFromUser(Grid grid, String userName);
    void showOutcome(GameOutcome outcome, Player winner);
+   void showScoreboard(Scoreboard scoreboard);
+   void announceOverallWinner(Scoreboard scoreboard);
+
+   boolean askPlayAgain();
 }

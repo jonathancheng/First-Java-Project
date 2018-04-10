@@ -49,6 +49,12 @@ public class Game
       }
    }
 
+   public void reset()
+   {
+      board = Board.emptyWithSize(board.getSize());
+      referee = new Referee(board);
+   }
+
    private void markNextMove()
    {
       while (true)
