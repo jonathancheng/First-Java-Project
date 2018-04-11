@@ -16,12 +16,11 @@ public class MainMenu
       PLAY_GAME("Play game", () ->
       {
          Scoreboard scores = new Scoreboard();
-         final Game game = new Game(ui.getBoardSize(), ui.getPlayerA(), ui.getPlayerB());
+         final Game game = Game.fromUI(ui);
          do
          {
             GameOutcome result = game.play();
             ui.showOutcome(result, game.getWinner(result));
-            ui.showGrid(game.getGrid());
 
             scores.markOutcome(result);
             ui.showScoreboard(scores);

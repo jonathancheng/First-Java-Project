@@ -30,14 +30,14 @@ public class ConsoleUI implements UserInterface {
    public void showRules()
    {
       System.out.println();
-      System.out.println("=== Rules ===");
+      printBanner("Rules");
       System.out.println("Upon choosing the \"Play Game\" option, you will be asked to choose a board size, anywhere from 3 - 10. \n" +
-              "The board will always be in a square shape, ie. if you choose, 3, then it will be a 3x3 board. The players\n" +
-              "will take turns putting a piece down on this board, and the first person to get x amount of pieces in a row wins.\n" +
-              "x depends on the board size. If the board size is 3, then the user needs to get 3 pieces in a row, and 4 in a row\n" +
-              "for a 4x4 board, etc. The pieces could line up vertically, horizontally, or diagonally. Upon winning the game, you\n" +
+              "The board will always be in a square shape, ie. if you choose 3, then it will be a 3x3 board. The players\n" +
+              "will take turns putting a piece down on this board, and the first person to get x amount of pieces in a row wins,\n" +
+              "where x is the board size. If the board size is 3, then the user needs to get 3 pieces in a row, and 4 in a row\n" +
+              "for a 4x4 board, etc. The pieces could line up vertically, horizontally, or diagonally. Upon winning the game, the winner\n" +
               "will be scored one point. If the game results in a tie, then neither side earns a point. If you would like to exit \n" +
-              "the game at any time, then enter -1 when asked for the x or y coordinate. Be careful when choosing your coordinate. \n" +
+              "the game at any time, enter -1 when asked for the x or y coordinate. Be careful when choosing your coordinate. \n" +
               "The coordinates start at 0 instead of 1 from the top left corner.");
       pressEnterToContinue();
    }
@@ -46,7 +46,7 @@ public class ConsoleUI implements UserInterface {
    public void showAbout()
    {
       System.out.println();
-      System.out.println("=== About ===");
+      printBanner("About");
       System.out.println("This game was created in 2018 by the programmers Michael Peng and Jonathan Cheng. " +
               "\nMade with GitHub, IntelliJ, Floobits and <3");
       pressEnterToContinue();
@@ -55,7 +55,7 @@ public class ConsoleUI implements UserInterface {
    @Override
    public int getBoardSize()
    {
-      return promptForRangedInt("\nEnter board size (3 - 10) >> ", 3, 10);
+      return promptForRangedInt("\nEnter board size (3-10) >>", 3, 10);
    }
 
    @Override
@@ -72,13 +72,12 @@ public class ConsoleUI implements UserInterface {
 
    private void printMenuOptions(MainMenu.MenuOption[] options)
    {
-      System.out.println("=== Main Menu ===");
+      printBanner("Main Menu");
       System.out.println("0. Exit the game");
       for (int index = 0; index < options.length; ++index)
-      {
          System.out.printf("%d. %s\n", index + 1, options[index].label);
-      }
    }
+
 
    @Override
    public Coordinate getMoveFromUser(Grid grid, String userName)
@@ -86,8 +85,6 @@ public class ConsoleUI implements UserInterface {
       int x, y;
       while (true)
       {
-         ConsoleBoxRenderer.draw(grid);
-
          x = promptForIntInSizeWithSentinel(userName + ", the x component of your selected cell >>", grid);
          y = promptForIntInSizeWithSentinel("And the y component >>", grid);
 
@@ -118,7 +115,8 @@ public class ConsoleUI implements UserInterface {
    public void showScoreboard(Scoreboard scoreboard)
    {
       System.out.println();
-      System.out.printf("==== SCORES ====\nPlayer A: %d points\nPlayer B: %d points\n",
+      printBanner("Scores");
+      System.out.printf("Player A: %d points\nPlayer B: %d points\n",
               scoreboard.getScorePlayerA(),
               scoreboard.getScorePlayerB());
       System.out.println();
@@ -133,27 +131,25 @@ public class ConsoleUI implements UserInterface {
    @Override
    public boolean askPlayAgain()
    {
-      // TODO stub
-      int playAgain = promptForRangedInt("Would you like to play again? (1 for yes, 0 for no) >>", 0, 1);
-
-      return playAgain == 1;
+      return 1 == promptForRangedInt("Would you like to play again? (1 for yes, 0 for no) >>", 0, 1);
    }
 
    @Override
    public void announceOverallWinner(Scoreboard scoreboard) {
       System.out.println();
-      if (scoreboard.getScorePlayerA() == scoreboard.getScorePlayerB())
-      {
+      int scoreA = scoreboard.getScorePlayerA(),
+              scoreB = scoreboard.getScorePlayerB();
+
+      String winner = scoreA > scoreB ? "Player A" : "Player B",
+              loser = scoreB > scoreA ? "Player A" : "Player B";
+
+      if (scoreA == scoreB)
          System.out.println("Both players have the same score, so the game is a tie.");
-      }
-      else if (scoreboard.getScorePlayerA() > scoreboard.getScorePlayerB())
-      {
-         System.out.println("Player A has more score than Player B, so they have won the game. Congratulations!");
-      }
       else
-      {
-         System.out.println("Player B has more score than Player A, so they have won the game. Congratulations!");
-      }
+         System.out.printf("%s's score is greater than that of %s, so they have won the game. Congratulations!",
+                 winner,
+                 loser);
+
       pressEnterToContinue();
    }
 
@@ -218,5 +214,10 @@ public class ConsoleUI implements UserInterface {
       System.out.println();
       System.out.println("PRESS ENTER TO CONTINUE...");
       reader.nextLine();
+   }
+
+   private static void printBanner(String banner)
+   {
+      System.out.println("=== " + banner + " ===");
    }
 }

@@ -1,11 +1,13 @@
 package ttt.game;
 
 import ttt.player.Player;
+import ttt.ui.UserInterface;
 
 import java.util.Optional;
 
 public class Game
 {
+   private final UserInterface ui;
    private Board board;
    private Referee referee;
 
@@ -15,12 +17,18 @@ public class Game
    // To change the player who starts first, toggle this.
    private boolean isTurnOfA = true;
 
-   public Game(int boardSize, Player playerA, Player playerB)
+   public static Game fromUI(UserInterface ui)
+   {
+      return new Game(ui.getBoardSize(), ui.getPlayerA(), ui.getPlayerB(), ui);
+   }
+
+   public Game(int boardSize, Player playerA, Player playerB, UserInterface ui)
    {
       board = Board.emptyWithSize(boardSize);
       referee = new Referee(board);
       this.playerA = playerA;
       this.playerB = playerB;
+      this.ui = ui;
    }
 
    public GameOutcome play()
@@ -30,7 +38,10 @@ public class Game
       for (outcome = Optional.empty();
            !outcome.isPresent();
            outcome = referee.getVerdict())
+      {
          markNextMove();
+         ui.showGrid(board);
+      }
 
       return outcome.orElse(GameOutcome.TIE);
    }

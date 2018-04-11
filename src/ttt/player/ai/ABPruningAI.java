@@ -44,7 +44,8 @@ public class ABPruningAI implements Player
 
    private Integer runNegamax(CompactByteGrid root, Cell nextPlayer)
    {
-      return negamax(root, DEPTH - root.getSize(), Integer.MIN_VALUE, Integer.MAX_VALUE, nextPlayer);
+      return negamax(root, DEPTH - (int)(root.getSize()/1.5),
+              Integer.MIN_VALUE, Integer.MAX_VALUE, nextPlayer);
    }
 
    // Translation of pseudocode from Wikipedia on Negamax
